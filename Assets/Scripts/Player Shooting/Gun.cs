@@ -18,12 +18,12 @@ public class Gun : MonoBehaviour
     public float _Force;
 
     public GunChangeMode gunChangeMode;
-
+    ProjectilePrediction trajectoryPredictor;
     private bool isGhostInit = false;
     // Start is called before the first frame update
     void Start()
     {
-
+        trajectoryPredictor = GetComponent<ProjectilePrediction>();
     }
 
     // Update is called once per frame
@@ -31,10 +31,10 @@ public class Gun : MonoBehaviour
     {
         //if(!isGhostInit)
         //{
-            //projection.Initialize(GhostBullet.GetComponent<Bullet>(), firingPoint.transform.position, firingPoint.transform.forward * _Force);
+        //projection.Initialize(GhostBullet.GetComponent<Bullet>(), firingPoint.transform.position, firingPoint.transform.forward * _Force);
         //    isGhostInit = true;
         //}
-
+        Predict();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -42,12 +42,29 @@ public class Gun : MonoBehaviour
         }
         if(Input.GetMouseButton(0))
         {
-            projection.SimulateTrajectory(GhostBullet.GetComponent<Bullet>(), firingPoint.transform.position, firingPoint.transform.forward * _Force);
+            //projection.SimulateTrajectory(GhostBullet.GetComponent<Bullet>(), firingPoint.transform.position, firingPoint.transform.forward * _Force);
         }
     
 
     }
+    void Predict()
+    {
+        trajectoryPredictor.PredictTrajectory(ProjectileData());
+    }
 
+    ProjectileProperties ProjectileData()
+    {
+        ProjectileProperties properties = new ProjectileProperties();
+        Rigidbody r = KineticBullet.GetComponent<Rigidbody>();
+
+        properties.direction = firingPoint.transform.forward;
+        properties.initialPosition = firingPoint.transform.position;
+        properties.initialSpeed = _Force;
+        properties.mass = r.mass;
+        properties.drag = r.drag;
+
+        return properties;
+    }
     private void FixedUpdate()
     {
     }
