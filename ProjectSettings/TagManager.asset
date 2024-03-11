@@ -11,6 +11,8 @@ TagManager:
   - LiftBullet
   - Interactions
   - Cube
+  - PlayerTeleport
+  - Test
   layers:
   - Default
   - TransparentFX
@@ -27,7 +29,7 @@ TagManager:
   - PostFX
   - Cubes
   - ActivateCube
-  - 
+  - Teleport
   - 
   - 
   - 

@@ -38,6 +38,7 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            SoundSystem.instance.PlaySound("WeaponShoot");
             Shoot();
         }
         if(Input.GetMouseButton(0))
