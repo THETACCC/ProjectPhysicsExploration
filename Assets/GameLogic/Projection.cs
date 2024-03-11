@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
+
 
 public class Projection : MonoBehaviour
 {
