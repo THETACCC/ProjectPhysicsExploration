@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectilePrediction : MonoBehaviour
 {
-    #region Members
+    #region Properties
     LineRenderer trajectoryLine;
     [SerializeField, Tooltip("The marker will show where the projectile will hit")]
     Transform hitMarker;
@@ -53,14 +53,10 @@ public class ProjectilePrediction : MonoBehaviour
             //If nothing is hit, continue rendering the arc without a visual marker
             hitMarker.gameObject.SetActive(false);
             position = nextPosition;
-            UpdateLineRender(maxPoints, (i, position)); //Unneccesary to set count here, but not harmful
+            UpdateLineRender(maxPoints, (i, position)); 
         }
     }
-    /// <summary>
-    /// Allows us to set line count and an induvidual position at the same time
-    /// </summary>
-    /// <param name="count">Number of points in our line</param>
-    /// <param name="pointPos">The position of an induvidual point</param>
+
     private void UpdateLineRender(int count, (int point, Vector3 pos) pointPos)
     {
         trajectoryLine.positionCount = count;
