@@ -6,6 +6,9 @@ public class CubeLogic : MonoBehaviour
 {
     public Rigidbody rb;
     public float pushMagnitude = 1250f;
+    [HideInInspector]
+    public bool isMoving = false;
+    public float movementThreshold = 0.1f;
 
     void Start()
     {
@@ -17,7 +20,19 @@ public class CubeLogic : MonoBehaviour
     {
         
     }
+    private void FixedUpdate()
+    {
+        // Check if the Rigidbody's velocity magnitude is greater than the movementThreshold
+        if (rb.velocity.magnitude > movementThreshold)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
 
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "GravityBullet")

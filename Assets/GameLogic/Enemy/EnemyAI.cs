@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-
+    private Animator animator; // Reference to the Animator component
     public NavMeshAgent agent;
 
     public Transform player;
@@ -26,6 +26,10 @@ public class EnemyAI : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    private float agentWalkSpeed = 0f;
+
+    //Death Effects
+    public GameObject replacement;
 
     private void Awake()
     {
@@ -35,7 +39,8 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponentInChildren<Animator>();
+        agentWalkSpeed = agent.speed;
     }
 
     // Update is called once per frame
@@ -46,20 +51,35 @@ public class EnemyAI : MonoBehaviour
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (!playerInSightRange && !playerInAttackRange)
+        {
+            Patroling();
+            //.SetBool("Chase", false);
+        }
+
+        if (playerInSightRange && !playerInAttackRange)
+        {
+            ChasePlayer();
+            //animator.SetBool("Chase", true);
+        }
+
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        float AnimMagnitude = Mathf.Clamp01(agent.velocity.magnitude);
+        animator.SetFloat("Speed", agent.velocity.magnitude, 0.05f, Time.deltaTime);
+        print(agent.velocity.magnitude);
+
     }
 
     private void Patroling()
     {
+        agent.speed = agentWalkSpeed;
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
+        Debug.Log("Patrolling");
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
@@ -79,16 +99,20 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        agent.speed = 18f;
     }
 
     private void AttackPlayer()
     {
+
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
 
         if (!alreadyAttacked)
         {
+            Debug.Log("ATTACK!!");
+            animator.SetTrigger("Attack");
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -109,6 +133,32 @@ public class EnemyAI : MonoBehaviour
         Destroy(gameObject);
     }
 
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Cube")
+        {
+            CubeLogic cubelogic = collision.gameObject.GetComponent<CubeLogic>();
+            if (cubelogic != null)
+            {
+                if(cubelogic.isMoving)
+                {  
+                    var _replacement = Instantiate(replacement,transform.position,transform.rotation);  
+                    var rbs = _replacement.GetComponentsInChildren<Rigidbody>();
+
+                    foreach(var rb in rbs)
+                    {
+                        rb.AddExplosionForce(collision.relativeVelocity.magnitude * 50, collision.contacts[0].point, 2);
+                    }
+
+
+                    DestroyEnemy();
+                    Debug.Log("Being hit");
+                }
+            }
+
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
