@@ -31,6 +31,7 @@ public class EnemyAI : MonoBehaviour
     //Death Effects
     public GameObject replacement;
 
+    public Transform teleportationPoint;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -66,7 +67,7 @@ public class EnemyAI : MonoBehaviour
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
         float AnimMagnitude = Mathf.Clamp01(agent.velocity.magnitude);
         animator.SetFloat("Speed", agent.velocity.magnitude, 0.05f, Time.deltaTime);
-        print(agent.velocity.magnitude);
+
 
     }
 
@@ -111,6 +112,19 @@ public class EnemyAI : MonoBehaviour
 
         if (!alreadyAttacked)
         {
+
+            PlayerController playercontroll = player.GetComponent<PlayerController>();
+            if (playercontroll != null)
+            {
+                playercontroll.PlayerHealth -= 25;
+                if(playercontroll.PlayerHealth <= 0)
+                {
+                    player.transform.position = teleportationPoint.position;
+                    playercontroll.ResetHealth();
+                }
+            }
+
+
             Debug.Log("ATTACK!!");
             animator.SetTrigger("Attack");
             alreadyAttacked = true;

@@ -276,11 +276,11 @@ MonoBehaviour:
   walkPointRange: 5
   timeBetweenAttacks: 2
   projectile: {fileID: 0}
-  sightRange: 30
+  sightRange: 40
   attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
-  replacement: {fileID: 8287893826096152107, guid: 205efb3819fed9d4094f47649c3a87af, type: 3}
+  replacement: {fileID: 1227356480498367032, guid: 5a6474eb27ea9a14a82a6bd748f747e3, type: 3}
 --- !u!1001 &1423005452142485644
 PrefabInstance:
   m_ObjectHideFlags: 0
