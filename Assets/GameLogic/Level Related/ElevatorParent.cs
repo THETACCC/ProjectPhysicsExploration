@@ -7,12 +7,19 @@ public class ElevatorParent : MonoBehaviour
     PlayerMovementAdvanced movement;
     public void OnTriggerEnter(Collider other)
     {
-        other.transform.parent.SetParent(transform);
+        if(other.gameObject.tag == "Player")
+        {
+            other.transform.parent.SetParent(transform);
+        }
+
     }
 
     public void OnTriggerExit(Collider other)
     {
-        other.transform.parent.SetParent(null);
+        if (other.gameObject.tag == "Player")
+        {
+            other.transform.parent.SetParent(null);
+        }
 
     }
 }
