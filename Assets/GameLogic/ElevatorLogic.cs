@@ -33,7 +33,7 @@ public class ElevatorLogic : MonoBehaviour
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
-                    rb.AddForce(Vector3.up * pushMagnitude);
+                    rb.AddForce(directionFromBullet * pushMagnitude);
                     Destroy(other.gameObject);
                 }
                 else if (other.gameObject.tag == "KineticBullet")
@@ -45,7 +45,7 @@ public class ElevatorLogic : MonoBehaviour
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
-                    rb.AddForce(-Vector3.up * pushMagnitude);
+                    rb.AddForce(directionFromBullet * pushMagnitude);
                     Destroy(other.gameObject);
                 }
                 else if (other.gameObject.tag == "LiftBullet")
