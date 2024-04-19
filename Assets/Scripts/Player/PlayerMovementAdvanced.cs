@@ -64,6 +64,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     Rigidbody rb;
 
+    //Groundcheck related
+    private Vector3 lastGroundedPosition;
+    private float timeSinceGrounded;
+    private Coroutine airborneCoroutine;
+
     public MovementState state;
     public enum MovementState
     {
@@ -106,9 +111,10 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void Update()
     {
+        CheckGroundStatus();
         // ground check
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, whatIsGround);
+
         MyInput();
         SpeedControl();
         StateHandler();
@@ -120,7 +126,63 @@ public class PlayerMovementAdvanced : MonoBehaviour
         else
             rb.drag = 0;
     }
+    private void CheckGroundStatus()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(groundCheck.position, groundDistance, whatIsGround);
+        bool wasGrounded = grounded;
+        grounded = hitColliders.Length > 0; // Update grounded status based on whether any colliders were hit
 
+        if (grounded)
+        {
+            // Log the names of all colliders the sphere has hit
+            foreach (Collider collider in hitColliders)
+            {
+                Debug.Log("Grounded on object: " + collider.gameObject.name);
+            }
+
+            lastGroundedPosition = transform.position;
+            if (airborneCoroutine != null)
+            {
+                StopCoroutine(airborneCoroutine);
+                airborneCoroutine = null;
+            }
+            timeSinceGrounded = 0;
+        }
+        else if (!wasGrounded && airborneCoroutine == null)
+        {
+            airborneCoroutine = StartCoroutine(TrackAirTime());
+        }
+    }
+
+    private IEnumerator TrackAirTime()
+    {
+
+        while (true)
+        {
+            Debug.Log("FALLING");
+            timeSinceGrounded += Time.deltaTime;
+
+            if (timeSinceGrounded >= 2f)
+            {
+                TeleportToLastGroundedPosition();
+                break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private void TeleportToLastGroundedPosition()
+    {
+        rb.velocity = Vector3.zero; // Reset velocity to prevent falling damage or similar issues.
+        transform.position = lastGroundedPosition;
+        timeSinceGrounded = 0;
+        if (airborneCoroutine != null)
+        {
+            StopCoroutine(airborneCoroutine);
+            airborneCoroutine = null;
+        }
+    }
     private void FixedUpdate()
     {
         MovePlayer();
