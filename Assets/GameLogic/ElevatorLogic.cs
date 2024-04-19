@@ -7,6 +7,11 @@ public class ElevatorLogic : MonoBehaviour
     public Rigidbody rb;
     public float pushMagnitude = 1250f;
     public PlatformType type;
+
+
+    public float minMove = 0f; // Minimum Y-axis value
+    public float maxMove = 10f; // Maximum Y-axis value
+    public float movementSpeed = 5f;
     void Start()
     {
 
@@ -20,6 +25,7 @@ public class ElevatorLogic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if(type == PlatformType.Vertical)
         {
             if (rb.velocity.magnitude < 1f) // Using 0.01 as a threshold for being "stationary"
@@ -120,6 +126,115 @@ public class ElevatorLogic : MonoBehaviour
             {
                 Destroy(other.gameObject);
             }
+        }
+        */
+
+        if (rb.velocity.magnitude < 1f) // Using 1f as a threshold for being "stationary"
+        {
+            float target = 0f;
+
+            if (other.gameObject.tag == "GravityBullet")
+            {
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
+
+                print(directionFromBullet);
+                if (directionFromBullet.y < 0)
+                {
+                    target = minMove;
+                }
+                else
+                {
+                    target = maxMove;
+                }
+
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "KineticBullet")
+            {
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
+
+                print(directionFromBullet);
+                if (directionFromBullet.y > 0)
+                {
+                    target = minMove;
+                }
+                else
+                {
+                    target = maxMove;
+                }
+
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "LiftBullet")
+            {
+                Debug.Log("EnterTrigger: LiftBullet");
+
+                Destroy(other.gameObject);
+            }
+
+            if (target != 0f) // Check if targetY was set
+            {
+                StartCoroutine(MoveToHeight(target));
+                Destroy(other.gameObject);
+            }
+        }
+
+
+    }
+
+
+    private IEnumerator MoveToHeight(float target)
+    {
+        if(type == PlatformType.Vertical)
+        {
+            while (Mathf.Abs(transform.position.y - target) > 0.01f)
+            {
+                Vector3 newPosition = new Vector3(transform.position.x, Mathf.MoveTowards(transform.position.y, target, movementSpeed * Time.deltaTime), transform.position.z);
+                rb.MovePosition(newPosition);
+                yield return null;
+            }
+        }
+        else if (type == PlatformType.Zmove)
+        {
+            while (Mathf.Abs(transform.position.z - target) > 0.01f)
+            {
+                Vector3 newPosition = new Vector3(transform.position.x, transform.position.y,Mathf.MoveTowards(transform.position.z, target, movementSpeed * Time.deltaTime));
+                rb.MovePosition(newPosition);
+                yield return null;
+            }
+        }
+        else if (type == PlatformType.Xmove)
+        {
+            while (Mathf.Abs(transform.position.x - target) > 0.01f)
+            {
+                Vector3 newPosition = new Vector3(Mathf.MoveTowards(transform.position.x, target, movementSpeed * Time.deltaTime), transform.position.y,transform.position.z );
+                rb.MovePosition(newPosition);
+                yield return null;
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if(type == PlatformType.Zmove)
+        {
+            Vector3 currentPosition = transform.position;
+            currentPosition.z = Mathf.Clamp(currentPosition.z, minMove, maxMove);
+            transform.position = currentPosition;
+        }
+        else if (type == PlatformType.Xmove)
+        {
+            Vector3 currentPosition = transform.position;
+            currentPosition.x = Mathf.Clamp(currentPosition.x, minMove, maxMove);
+            transform.position = currentPosition;
+        }
+        else if (type == PlatformType.Vertical)
+        {
+            Vector3 currentPosition = transform.position;
+            currentPosition.y = Mathf.Clamp(currentPosition.y, minMove, maxMove);
+            transform.position = currentPosition;
         }
     }
 }
