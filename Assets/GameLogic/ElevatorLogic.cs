@@ -42,168 +42,219 @@ public class ElevatorLogic : MonoBehaviour
 
      private void OnTriggerEnter(Collider other)
      {
-         /*
-         if(type == PlatformType.Vertical)
-         {
-             if (rb.velocity.magnitude < 1f) // Using 0.01 as a threshold for being "stationary"
-             {
-                 if (other.gameObject.tag == "GravityBullet")
-                 {
-                     Debug.Log("EnterTrigger");
+        /*
+        if(type == PlatformType.Vertical)
+        {
+            if (rb.velocity.magnitude < 1f) // Using 0.01 as a threshold for being "stationary"
+            {
+                if (other.gameObject.tag == "GravityBullet")
+                {
+                    Debug.Log("EnterTrigger");
 
-                     //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                     //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                     Vector3 directionFromBullet = -other.transform.forward;
-                     directionFromBullet.Normalize();
+                    //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                    //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
 
-                     rb.AddForce(directionFromBullet * pushMagnitude);
-                     Destroy(other.gameObject);
-                 }
-                 else if (other.gameObject.tag == "KineticBullet")
-                 {
-                     Debug.Log("EnterTrigger");
+                    rb.AddForce(directionFromBullet * pushMagnitude);
+                    Destroy(other.gameObject);
+                }
+                else if (other.gameObject.tag == "KineticBullet")
+                {
+                    Debug.Log("EnterTrigger");
 
-                     //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                     //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                     Vector3 directionFromBullet = -other.transform.forward;
-                     directionFromBullet.Normalize();
+                    //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                    //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
 
-                     rb.AddForce(directionFromBullet * pushMagnitude);
-                     Destroy(other.gameObject);
-                 }
-                 else if (other.gameObject.tag == "LiftBullet")
-                 {
-                     Debug.Log("EnterTrigger");
+                    rb.AddForce(directionFromBullet * pushMagnitude);
+                    Destroy(other.gameObject);
+                }
+                else if (other.gameObject.tag == "LiftBullet")
+                {
+                    Debug.Log("EnterTrigger");
 
 
-                     rb.AddForce(Vector3.up * pushMagnitude);
-                     Destroy(other.gameObject);
-                 }
-             }
-         }
-         else if (type == PlatformType.Xmove)
-         {
-             if (other.gameObject.tag == "GravityBullet")
-             {
-                 Debug.Log("EnterTrigger");
+                    rb.AddForce(Vector3.up * pushMagnitude);
+                    Destroy(other.gameObject);
+                }
+            }
+        }
+        else if (type == PlatformType.Xmove)
+        {
+            if (other.gameObject.tag == "GravityBullet")
+            {
+                Debug.Log("EnterTrigger");
 
-                 //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                 //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
 
-                 rb.AddForce(directionFromBullet * pushMagnitude);
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "KineticBullet")
-             {
-                 Debug.Log("EnterTrigger");
+                rb.AddForce(directionFromBullet * pushMagnitude);
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "KineticBullet")
+            {
+                Debug.Log("EnterTrigger");
 
-                 //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                 //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
 
-                 rb.AddForce(-directionFromBullet * pushMagnitude);
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "LiftBullet")
-             {
+                rb.AddForce(-directionFromBullet * pushMagnitude);
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "LiftBullet")
+            {
 
-                 Destroy(other.gameObject);
-             }
-         }
-         else if (type == PlatformType.Zmove)
-         {
-             if (other.gameObject.tag == "GravityBullet")
-             {
-                 Debug.Log("EnterTrigger");
+                Destroy(other.gameObject);
+            }
+        }
+        else if (type == PlatformType.Zmove)
+        {
+            if (other.gameObject.tag == "GravityBullet")
+            {
+                Debug.Log("EnterTrigger");
 
-                 //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                 //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
 
-                 rb.AddForce(directionFromBullet * pushMagnitude);
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "KineticBullet")
-             {
-                 Debug.Log("EnterTrigger");
+                rb.AddForce(directionFromBullet * pushMagnitude);
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "KineticBullet")
+            {
+                Debug.Log("EnterTrigger");
 
-                 //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
-                 //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
+                //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
+                Vector3 directionFromBullet = -other.transform.forward;
+                directionFromBullet.Normalize();
 
-                 rb.AddForce(-directionFromBullet * pushMagnitude);
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "LiftBullet")
-             {
-                 Destroy(other.gameObject);
-             }
-         }
-         */
+                rb.AddForce(-directionFromBullet * pushMagnitude);
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "LiftBullet")
+            {
+                Destroy(other.gameObject);
+            }
+        }
+        */
 
-         if (rb.velocity.magnitude < 1f) // Using 1f as a threshold for being "stationary"
-         {
-             float target = 0f;
+        if (rb.velocity.magnitude < 1f) // Using 1f as a threshold for being "stationary"
+        {
+            float target = 0f;
+            if (type == PlatformType.Xmove)
+            {
+                    if (other.gameObject.tag == "GravityBullet")
+                    {
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
 
-             if (other.gameObject.tag == "GravityBullet")
-             {
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                    print(directionFromBullet);
+                    if (directionFromBullet.x < 0)
+                    {
+                        target = minMove;
+                    }
+                    else
+                    {
+                        target = maxMove;
+                    }
 
-                 print(directionFromBullet);
-                 if (directionFromBullet.y < 0)
-                 {
-                     target = minMove;
-                 }
-                 else
-                 {
-                     target = maxMove;
-                 }
+                    Destroy(other.gameObject);
+                    }
+                    else if (other.gameObject.tag == "KineticBullet")
+                    {
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
 
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "KineticBullet")
-             {
-                 Vector3 directionFromBullet = -other.transform.forward;
-                 directionFromBullet.Normalize();
+                    print(directionFromBullet);
+                    if (directionFromBullet.x > 0)
+                    {
+                        target = minMove;
+                    }
+                    else
+                    {
+                        target = maxMove;
+                    }
 
-                 print(directionFromBullet);
-                 if (directionFromBullet.y > 0)
-                 {
-                     target = minMove;
-                 }
-                 else
-                 {
-                     target = maxMove;
-                 }
+                    Destroy(other.gameObject);
+                    }
+                    else if (other.gameObject.tag == "LiftBullet")
+                    {
+                    Debug.Log("EnterTrigger: LiftBullet");
 
-                 Destroy(other.gameObject);
-             }
-             else if (other.gameObject.tag == "LiftBullet")
-             {
-                 Debug.Log("EnterTrigger: LiftBullet");
+                    Destroy(other.gameObject);
+                    }
 
-                 Destroy(other.gameObject);
-             }
+                    if (target != 0f) // Check if targetY was set
+                    {
+                    StartCoroutine(MoveToHeight(target));
+                    Destroy(other.gameObject);
+                    }
+            }
+            else if (type == PlatformType.Zmove)
+            {
+                if (other.gameObject.tag == "GravityBullet")
+                {
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
 
-             if (target != 0f) // Check if targetY was set
-             {
-                 StartCoroutine(MoveToHeight(target));
-                 Destroy(other.gameObject);
-             }
-         }
+                    print(directionFromBullet);
+                    if (directionFromBullet.z < 0)
+                    {
+                        target = minMove;
+                    }
+                    else
+                    {
+                        target = maxMove;
+                    }
 
+                    Destroy(other.gameObject);
+                }
+                else if (other.gameObject.tag == "KineticBullet")
+                {
+                    Vector3 directionFromBullet = -other.transform.forward;
+                    directionFromBullet.Normalize();
+
+                    print(directionFromBullet);
+                    if (directionFromBullet.z > 0)
+                    {
+                        target = minMove;
+                    }
+                    else
+                    {
+                        target = maxMove;
+                    }
+
+                    Destroy(other.gameObject);
+                }
+                else if (other.gameObject.tag == "LiftBullet")
+                {
+                    Debug.Log("EnterTrigger: LiftBullet");
+
+                    Destroy(other.gameObject);
+                }
+
+                if (target != 0f) // Check if targetY was set
+                {
+                    StartCoroutine(MoveToHeight(target));
+                    Destroy(other.gameObject);
+                }
+            }
+        }
 
      }
 
 
      private IEnumerator MoveToHeight(float target)
      {
+        
          if(type == PlatformType.Vertical)
          {
              while (Mathf.Abs(transform.position.y - target) > 0.01f)
@@ -231,7 +282,25 @@ public class ElevatorLogic : MonoBehaviour
                  yield return null;
              }
          }
-     }
+        
+        /*
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = new Vector3(
+            type == PlatformType.Xmove ? target : startPosition.x,
+            type == PlatformType.Vertical ? target : startPosition.y,
+            type == PlatformType.Zmove ? target : startPosition.z);
+
+        float elapsedTime = 0f;
+        while (elapsedTime < 1f)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime);
+            elapsedTime += Time.deltaTime * movementSpeed;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        */
+    }
 
      void LateUpdate()
      {

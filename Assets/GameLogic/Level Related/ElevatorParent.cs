@@ -6,11 +6,11 @@ public class ElevatorParent : MonoBehaviour
 {
     PlayerMovementAdvanced movement;
     private Transform ElevatorOBJ;
-
+    private Rigidbody myRB;
     public void Start()
     {
         ElevatorOBJ = this.gameObject.transform.GetChild(0); // Get first child
-
+        myRB = GetComponent<Rigidbody>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -24,6 +24,16 @@ public class ElevatorParent : MonoBehaviour
 
         }
 
+    }
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("MOVE");
+            Debug.Log(myRB.velocity);
+            Rigidbody plyRB = other.gameObject.GetComponent<Rigidbody>();
+            plyRB.velocity = myRB.velocity;
+        }
     }
 
     public void OnTriggerExit(Collider other)
