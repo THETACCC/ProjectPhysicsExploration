@@ -13,6 +13,7 @@ TagManager:
   - Cube
   - PlayerTeleport
   - Test
+  - ElevatorOBJ
   layers:
   - Default
   - TransparentFX
