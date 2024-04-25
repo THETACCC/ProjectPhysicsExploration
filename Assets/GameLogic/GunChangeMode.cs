@@ -13,6 +13,9 @@ public class GunChangeMode : MonoBehaviour
     public GameObject modePart3;
     public int mode;
     Renderer[] renders;
+
+    //Reference
+    public GunModeUIChange uiChange;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,16 +33,19 @@ public class GunChangeMode : MonoBehaviour
         {
             if (renders.All(renderer => renderer.sharedMaterial == materials[0]))
             {
+                uiChange.ChangeText("PULL");
                 Array.ForEach(renders, renderer => renderer.sharedMaterial = materials[1]);
                 mode =  1;
             }
             else if (renders.All(renderer => renderer.sharedMaterial == materials[1]))
             {
+                uiChange.ChangeText("LIFT");
                 mode = 2;
                 Array.ForEach(renders, renderer => renderer.sharedMaterial = materials[2]);
             }
             else if (renders.All(renderer => renderer.sharedMaterial == materials[2]))
             {
+                uiChange.ChangeText("PUSH");
                 mode = 0;
                 Array.ForEach(renders, renderer => renderer.sharedMaterial = materials[0]);
             }
