@@ -68,6 +68,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private Vector3 lastGroundedPosition;
     private float timeSinceGrounded;
     private Coroutine airborneCoroutine;
+    private Collider lastGroundedCollider;
 
     public MovementState state;
     public enum MovementState
@@ -130,17 +131,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         Collider[] hitColliders = Physics.OverlapSphere(groundCheck.position, groundDistance, whatIsGround);
         bool wasGrounded = grounded;
-        grounded = hitColliders.Length > 0; // Update grounded status based on whether any colliders were hit
+        grounded = hitColliders.Length > 0;
 
         if (grounded)
         {
-            // Log the names of all colliders the sphere has hit
-            foreach (Collider collider in hitColliders)
-            {
-                Debug.Log("Grounded on object: " + collider.gameObject.name);
-            }
-
             lastGroundedPosition = transform.position;
+            lastGroundedCollider = hitColliders[0]; // Assuming the player only collides with one object at a time
             if (airborneCoroutine != null)
             {
                 StopCoroutine(airborneCoroutine);
@@ -162,7 +158,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
             Debug.Log("FALLING");
             timeSinceGrounded += Time.deltaTime;
 
-            if (timeSinceGrounded >= 2f)
+            if (timeSinceGrounded >= 3f)
             {
                 TeleportToLastGroundedPosition();
                 break;
@@ -174,8 +170,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void TeleportToLastGroundedPosition()
     {
-        rb.velocity = Vector3.zero; // Reset velocity to prevent falling damage or similar issues.
-        transform.position = lastGroundedPosition;
+
+        if (lastGroundedCollider != null)
+        {
+            Vector3 topCenter = lastGroundedCollider.bounds.center + new Vector3(0, lastGroundedCollider.bounds.extents.y + 5, 0);
+            transform.position = topCenter;
+        }
+        rb.velocity = Vector3.zero;
         timeSinceGrounded = 0;
         if (airborneCoroutine != null)
         {

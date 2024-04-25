@@ -27,13 +27,7 @@ public class ElevatorParent : MonoBehaviour
     }
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log("MOVE");
-            Debug.Log(myRB.velocity);
-            Rigidbody plyRB = other.gameObject.GetComponent<Rigidbody>();
-            plyRB.velocity = myRB.velocity;
-        }
+
     }
 
     public void OnTriggerExit(Collider other)

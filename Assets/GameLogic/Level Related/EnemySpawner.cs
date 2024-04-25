@@ -7,46 +7,59 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public bool isActivate = false;
     private bool hasStarted = false;
+    private List<GameObject> activeEnemies = new List<GameObject>();
+    public Transform EnemyTeleportationPoint;
     void Update()
     {
-        if (isActivate && !hasStarted)
+        activeEnemies.RemoveAll(item => item == null); // Clean up null references
+
+        if (isActivate && !hasStarted && activeEnemies.Count < 6)
         {
             StartSpawning();
-            hasStarted = true; // Set hasStarted to true to avoid repeated starts
+            hasStarted = true;
         }
-        else if (!isActivate && hasStarted)
+        else if (!isActivate && hasStarted || activeEnemies.Count >= 6)
         {
             StopSpawning();
-            hasStarted = false; // Reset hasStarted when spawning is stopped
+            hasStarted = false;
         }
     }
+
     public void StartSpawning()
     {
-        // Prevent multiple calls to InvokeRepeating
         CancelInvoke("SpawnEnemy");
-        InvokeRepeating("SpawnEnemy", 0f, 5f);  // 0f delay, repeat every 5 seconds
+        InvokeRepeating("SpawnEnemy", 0f, 5f);  // Start immediately and repeat every 5 seconds
     }
 
     public void StopSpawning()
     {
         CancelInvoke("SpawnEnemy");
     }
+
     public void SpawnEnemy()
     {
-        if (enemyPrefab != null)
+        if (activeEnemies.Count < 6) // Check if less than 6 enemies are active
         {
-            // Instantiate the block at the position and rotation of this spawner
-            Instantiate(enemyPrefab, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z), transform.rotation);
-        }
-        else
-        {
-            Debug.LogError("Block prefab is not assigned!");
+            if (enemyPrefab != null)
+            {
+                GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z), transform.rotation);
+                EnemyAI newEnemyAI = newEnemy.GetComponent<EnemyAI>();
+                if(newEnemyAI != null)
+                {
+                    newEnemyAI.teleportationPoint = EnemyTeleportationPoint;
+                }
+                activeEnemies.Add(newEnemy); // Add the new enemy to the list
+            }
+            else
+            {
+                Debug.LogError("Enemy prefab is not assigned!");
+            }
         }
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "KineticBullet" || collision.gameObject.tag == "LiftBullet" || collision.gameObject.tag == "GravityBullet")
+        if (collision.gameObject.tag == "KineticBullet" || collision.gameObject.tag == "LiftBullet" || collision.gameObject.tag == "GravityBullet")
         {
             Destroy(this.gameObject);
         }
