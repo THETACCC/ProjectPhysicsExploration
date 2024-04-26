@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.SceneView;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -32,6 +33,12 @@ public class EnemyAI : MonoBehaviour
     public GameObject replacement;
 
     public Transform teleportationPoint;
+
+    //Reference to Camera
+    public GameObject Vcam;
+    public CameraFade cameraFade;
+
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -40,6 +47,9 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vcam = GameObject.FindGameObjectWithTag ("MainVcam");
+        cameraFade = Vcam.GetComponent<CameraFade>();
+
         animator = GetComponentInChildren<Animator>();
         agentWalkSpeed = agent.speed;
     }
@@ -116,12 +126,8 @@ public class EnemyAI : MonoBehaviour
             PlayerController playercontroll = player.GetComponent<PlayerController>();
             if (playercontroll != null)
             {
-                playercontroll.PlayerHealth -= 25;
-                if(playercontroll.PlayerHealth <= 0)
-                {
-                    player.transform.position = teleportationPoint.position;
-                    playercontroll.ResetHealth();
-                }
+                Invoke("TriggerCameraShake", .5f);
+
             }
 
 
@@ -131,6 +137,19 @@ public class EnemyAI : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
+    private void TriggerCameraShake()
+    {
+        PlayerController playercontroll = player.GetComponent<PlayerController>();
+        CineMachineShake.Instance.ShakeCamera(2.5f, 0.5f);
+        playercontroll.PlayerHealth -= 25;
+        if (playercontroll.PlayerHealth <= 0)
+        {
+            cameraFade.ResetPlayer();
+            player.transform.position = teleportationPoint.position;
+            playercontroll.ResetHealth();
+        }
+    }
+
     private void ResetAttack()
     {
         alreadyAttacked = false;

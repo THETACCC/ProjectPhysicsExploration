@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.SceneView;
 
 public class PlayerMovementAdvanced : MonoBehaviour
 {
@@ -69,6 +70,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private float timeSinceGrounded;
     private Coroutine airborneCoroutine;
     private Collider lastGroundedCollider;
+
+
+    //Reference to CameraFade
+    public CameraFade cameraFade;
+
 
     public MovementState state;
     public enum MovementState
@@ -160,6 +166,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
             if (timeSinceGrounded >= 3f)
             {
+
                 TeleportToLastGroundedPosition();
                 break;
             }
@@ -175,6 +182,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         {
             Vector3 topCenter = lastGroundedCollider.bounds.center + new Vector3(0, lastGroundedCollider.bounds.extents.y + 5, 0);
             transform.position = topCenter;
+            cameraFade.ResetPlayer();
         }
         rb.velocity = Vector3.zero;
         timeSinceGrounded = 0;
