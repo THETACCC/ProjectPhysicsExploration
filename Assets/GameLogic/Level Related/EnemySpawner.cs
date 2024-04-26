@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "KineticBullet" || collision.gameObject.tag == "LiftBullet" || collision.gameObject.tag == "GravityBullet")
+        if (collision.gameObject.tag == "Cube")
         {
             Destroy(this.gameObject);
         }
