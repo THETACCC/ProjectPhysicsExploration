@@ -153,6 +153,7 @@ public class ElevatorLogic : MonoBehaviour
             {
                     if (other.gameObject.tag == "GravityBullet")
                     {
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
@@ -170,6 +171,7 @@ public class ElevatorLogic : MonoBehaviour
                     }
                     else if (other.gameObject.tag == "KineticBullet")
                     {
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
@@ -187,6 +189,7 @@ public class ElevatorLogic : MonoBehaviour
                     }
                     else if (other.gameObject.tag == "LiftBullet")
                     {
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Debug.Log("EnterTrigger: LiftBullet");
 
                     Destroy(other.gameObject);
@@ -202,6 +205,7 @@ public class ElevatorLogic : MonoBehaviour
             {
                 if (other.gameObject.tag == "GravityBullet")
                 {
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
@@ -219,6 +223,7 @@ public class ElevatorLogic : MonoBehaviour
                 }
                 else if (other.gameObject.tag == "KineticBullet")
                 {
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Vector3 directionFromBullet = -other.transform.forward;
                     directionFromBullet.Normalize();
 
@@ -237,7 +242,7 @@ public class ElevatorLogic : MonoBehaviour
                 else if (other.gameObject.tag == "LiftBullet")
                 {
                     Debug.Log("EnterTrigger: LiftBullet");
-
+                    SoundSystem.instance.PlaySound("BulletImpact");
                     Destroy(other.gameObject);
                 }
 

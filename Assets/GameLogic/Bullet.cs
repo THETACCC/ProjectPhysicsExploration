@@ -28,6 +28,7 @@ public class Bullet : MonoBehaviour
     }
     public virtual void OnCollisionEnter(Collision col)
     {
+        SoundSystem.instance.PlaySound("BulletImpact");
         if (_isGhost) return;
     }
 

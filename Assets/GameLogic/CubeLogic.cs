@@ -35,10 +35,11 @@ public class CubeLogic : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.tag == "GravityBullet")
         {
             Debug.Log("EnterTrigger");
-
+            SoundSystem.instance.PlaySound("BulletImpact");
             //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
             //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
             Vector3 directionFromBullet = -other.transform.forward;
@@ -50,7 +51,7 @@ public class CubeLogic : MonoBehaviour
         else if (other.gameObject.tag == "KineticBullet")
         {
             Debug.Log("EnterTrigger");
-
+            SoundSystem.instance.PlaySound("BulletImpact");
             //Vector3 closestPointOnBullet = other.ClosestPoint(transform.position);
             //Vector3 directionFromBullet = transform.position - closestPointOnBullet;
             Vector3 directionFromBullet = -other.transform.forward;
@@ -62,7 +63,7 @@ public class CubeLogic : MonoBehaviour
         else if (other.gameObject.tag == "LiftBullet")
         {
             Debug.Log("EnterTrigger");
-
+            SoundSystem.instance.PlaySound("BulletImpact");
 
             rb.AddForce(Vector3.up * pushMagnitude);
             Destroy(other.gameObject);

@@ -15,6 +15,7 @@ public class GravityBullet : Bullet
         base.OnCollisionEnter(collision);
         if (collision.gameObject.tag == "Interactions")
         {
+            SoundSystem.instance.PlaySound("BulletImpact");
             //Rigidbody colRigidbody =  collision.gameObject.GetComponent<Rigidbody>();
             //colRigidbody.AddForce(-transform.forward * 100);
             Destroy(gameObject);

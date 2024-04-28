@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
     //Reference to Camera
     public GameObject Vcam;
     public CameraFade cameraFade;
-
+    public CameraBlink cameraBlink;
 
     private void Awake()
     {
@@ -49,7 +49,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vcam = GameObject.FindGameObjectWithTag ("MainVcam");
         cameraFade = Vcam.GetComponent<CameraFade>();
-
+        cameraBlink = Vcam.GetComponent<CameraBlink>();
         animator = GetComponentInChildren<Animator>();
         agentWalkSpeed = agent.speed;
     }
@@ -142,11 +142,16 @@ public class EnemyAI : MonoBehaviour
         PlayerController playercontroll = player.GetComponent<PlayerController>();
         CineMachineShake.Instance.ShakeCamera(2.5f, 0.5f);
         playercontroll.PlayerHealth -= 25;
+        SoundSystem.instance.PlaySound("PlayerHit");
         if (playercontroll.PlayerHealth <= 0)
         {
             cameraFade.ResetPlayer();
             player.transform.position = teleportationPoint.position;
             playercontroll.ResetHealth();
+        }
+        else
+        {
+            cameraBlink.PlayerBlink();
         }
     }
 
@@ -184,7 +189,7 @@ public class EnemyAI : MonoBehaviour
                         rb.AddExplosionForce(collision.relativeVelocity.magnitude * 50, collision.contacts[0].point, 2);
                     }
 
-
+                    SoundSystem.instance.PlaySound("EnemyDeath");
                     DestroyEnemy();
                     Debug.Log("Being hit");
                 }

@@ -13,6 +13,7 @@ public class BlockSpawner : MonoBehaviour
 
     public void SpawnBlock()
     {
+        SoundSystem.instance.PlaySound("SpawnBlock");
         if (blockPrefab != null)
         {
             // Instantiate the block at the position and rotation of this spawner

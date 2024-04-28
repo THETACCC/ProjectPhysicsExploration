@@ -68,7 +68,7 @@ public class ElevatorLogicVertical : MonoBehaviour
             {
                 Vector3 directionFromBullet = -other.transform.forward;
                 directionFromBullet.Normalize();
-
+                SoundSystem.instance.PlaySound("BulletImpact");
                 print(directionFromBullet);
                 if(directionFromBullet.y < 0)
                 {
@@ -85,7 +85,7 @@ public class ElevatorLogicVertical : MonoBehaviour
             {
                 Vector3 directionFromBullet = -other.transform.forward;
                 directionFromBullet.Normalize();
-
+                SoundSystem.instance.PlaySound("BulletImpact");
                 print(directionFromBullet);
                 if (directionFromBullet.y > 0)
                 {
@@ -101,6 +101,7 @@ public class ElevatorLogicVertical : MonoBehaviour
             else if (other.gameObject.tag == "LiftBullet")
             {
                 Debug.Log("EnterTrigger: LiftBullet");
+                SoundSystem.instance.PlaySound("BulletImpact");
                 targetY = maxY;
             }
 

@@ -15,9 +15,11 @@ public class KineticBullet : Bullet
 
     public override void OnCollisionEnter(Collision collision)
     {
+
         base.OnCollisionEnter(collision);
         if (collision.gameObject.tag == "interactions")
         {
+            SoundSystem.instance.PlaySound("BulletImpact");
             Destroy(gameObject);
         }
 

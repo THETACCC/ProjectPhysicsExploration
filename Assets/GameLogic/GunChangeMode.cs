@@ -31,6 +31,7 @@ public class GunChangeMode : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            SoundSystem.instance.PlaySound("SwitchWeapon");
             if (renders.All(renderer => renderer.sharedMaterial == materials[0]))
             {
                 uiChange.ChangeText("PULL");
