@@ -61,6 +61,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (collision.gameObject.tag == "Cube")
         {
+            SoundSystem.instance.PlaySound("EnemyDeath");
             Destroy(this.gameObject);
         }
     }
